@@ -1,0 +1,28 @@
+{
+  "name": "swc-alias-plugin-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node -r ./src/index.js ./demo/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dingchenaobo/swc-alias-plugin-demo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@swc/core": "^1.2.162",
+    "pirates": "^4.0.5"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.13.4",
+    "koa": "^2.13.4"
+  },
+  "bugs": {
+    "url": "https://github.com/dingchenaobo/swc-alias-plugin-demo/issues"
+  },
+  "homepage": "https://github.com/dingchenaobo/swc-alias-plugin-demo#readme"
+}
