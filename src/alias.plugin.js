@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const hjson = require('hjson');
 const { Visitor } = require('@swc/core/Visitor');
+
+const { getTsConfig } = require('./config');
 
 module.exports = class AliasPluginVisitor extends Visitor {
   root = process.cwd();
@@ -12,7 +13,7 @@ module.exports = class AliasPluginVisitor extends Visitor {
   }
 
   resolveAlias() {
-    const config = this.resolveTsConfigJson();
+    const config = getTsConfig();
     if (config && config.compilerOptions && config.compilerOptions.paths) {
       const aliasObj = config.compilerOptions.paths;
       return Object.fromEntries(
@@ -23,11 +24,6 @@ module.exports = class AliasPluginVisitor extends Visitor {
       );
     }
     return null;
-  }
-
-  resolveTsConfigJson() {
-    const tsConfigJsonPath = path.normalize(path.join(this.root, 'tsconfig.json'));
-    return hjson.parse(fs.readFileSync(tsConfigJsonPath, 'utf-8'));
   }
 
   resolveAliasPathRegexpStr(alias) {

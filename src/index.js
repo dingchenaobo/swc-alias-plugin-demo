@@ -1,7 +1,8 @@
 const { addHook } = require('pirates');
 const { transformSync } = require('@swc/core');
 
-const AliasPlugin = require('../plugins/AliasPlugin');
+const { getTsConfig } = require('./config');
+const AliasPlugin = require('./alias.plugin');
 
 const default_exts = ['.js', '.ts'];
 
@@ -11,12 +12,12 @@ function complie(sourceCode, filename) {
       parser: {
         syntax: 'typescript',
         tsx: false,
-        decorators: false,
-        dynamicImport: false
+        decorators: true,
       }
     },
     module: {
       type: 'commonjs',
+      noInterop: !getTsConfig().compilerOptions.esModuleInterop,
     },
     plugin: m => new AliasPlugin().visitProgram(m),
   });
