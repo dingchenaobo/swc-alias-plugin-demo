@@ -17,7 +17,6 @@
   "dependencies": {
     "@swc/core": "^1.2.162",
     "hjson": "^3.2.2",
-    "minimatch": "^5.0.1",
     "pirates": "^4.0.5"
   },
   "devDependencies": {
