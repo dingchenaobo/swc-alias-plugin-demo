@@ -32,7 +32,7 @@ getSources(entry, {
   exts: complie_exts,
 }).forEach(file => {
   const sourceCode = fs.readFileSync(file.absolute, 'utf-8');
-  const code = compile(sourceCode);
+  const code = compile(sourceCode, file);
   const dest = path.normalize(path.join(root, output, file.dirname, `${file.basename}.js`));
   fs.writeFile(dest, code, {
     encoding: 'utf-8',

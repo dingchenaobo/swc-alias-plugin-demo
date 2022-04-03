@@ -3,7 +3,7 @@ const { transformSync } = require('@swc/core');
 const { getTsConfig } = require('./config');
 const AliasPlugin = require('./alias.plugin');
 
-module.exports = function complie(sourceCode) {
+module.exports = function compile(sourceCode, file) {
   const { code } = transformSync(sourceCode, {
     minify: true,
     jsc: {
@@ -17,7 +17,7 @@ module.exports = function complie(sourceCode) {
       type: 'commonjs',
       noInterop: !getTsConfig().compilerOptions.esModuleInterop,
     },
-    plugin: m => new AliasPlugin().visitProgram(m),
+    plugin: m => new AliasPlugin(file).visitProgram(m, file)
   });
 
   return code;

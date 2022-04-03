@@ -1,3 +1,4 @@
+const path = require('path');
 const { addHook } = require('pirates');
 const { transformSync } = require('@swc/core');
 
@@ -7,6 +8,10 @@ const AliasPlugin = require('./alias.plugin');
 const default_exts = ['.js', '.ts'];
 
 function complie(sourceCode, filename) {
+  const file = {
+    absolute: path.normalize(filename),
+  };
+
   const { code } = transformSync(sourceCode, {
     jsc: {
       parser: {
@@ -19,7 +24,7 @@ function complie(sourceCode, filename) {
       type: 'commonjs',
       noInterop: !getTsConfig().compilerOptions.esModuleInterop,
     },
-    plugin: m => new AliasPlugin().visitProgram(m),
+    plugin: m => new AliasPlugin(file).visitProgram(m),
   });
 
   return code;

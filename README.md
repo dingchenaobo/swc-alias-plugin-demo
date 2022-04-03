@@ -2,6 +2,6 @@
 
 - runtime (done)
 - alias 插件 (done)
-- build (todo)
+- build (done)
 - build plugin (todo)
 

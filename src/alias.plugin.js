@@ -7,6 +7,13 @@ const { getTsConfig } = require('./config');
 module.exports = class AliasPluginVisitor extends Visitor {
   root = process.cwd();
   alias = this.resolveAlias();
+  entry = process.argv[2];
+  file;
+
+  constructor(file) {
+    super();
+    this.file = file;
+  }
 
   visitTsType(n) {
     return n;
@@ -38,14 +45,20 @@ module.exports = class AliasPluginVisitor extends Visitor {
 
       for (let i = 0, len = this.alias[matchAliasKey].length; i < len; i += 1) {
         const targetPath = this.alias[matchAliasKey][i];
-        const realPath = path.join(this.root, targetPath.replace(/\*/, patMatchStr));
+        const targetAbsolutePath = path.join(this.root, targetPath.replace(/\*/, patMatchStr));
+        
+        if (this.existsSync(targetAbsolutePath)) {
+          let relativePath = path.relative(path.dirname(this.file.absolute), targetAbsolutePath);
           
-        if (this.existsSync(realPath)) {
+          if (!['./', '../'].some(ps => relativePath.startsWith(ps))) {
+            relativePath = './' + relativePath;
+          }
+
           return {
             ...n,
             source: {
               ...n.source,
-              value: realPath,
+              value: relativePath,
             },
           };
         }
